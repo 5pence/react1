@@ -1,5 +1,9 @@
 # Component Lifecycle
 
+* Notes and image taken from ui.dev react
+
+![component lifecycle](images/lifecycle.jpg)
+
 With React, it's all about components. In their most basic form, components can manage their own state, receive data via props, and describe their UI. Unfortunately, when building complex applications, components have to take on a few more responsibilities. Things like Ajax requests, setting and removing listeners, and reacting to new props are all tasks that fall within the component's responsibility. In this post, we're going to look at how we can hook into different moments in a component's lifecycle in order to accomplish these tasks.
 
 The Component Lifecycle
