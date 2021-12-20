@@ -1,4 +1,5 @@
 import * as React from 'react'
+import PropTypes from "prop-types";
 
 function LanguagesNav ({selected, onUpdateLanguage}) {
     /**
@@ -19,6 +20,13 @@ function LanguagesNav ({selected, onUpdateLanguage}) {
             ))}
         </ul>
     )
+}
+
+// uses class PropTypes to declare types of attributes for function LanguagesNav, for safety, easier and fewer
+// overheads than using Typescript throughout
+LanguagesNav.propType = {
+    selected: PropTypes.string.isRequired,
+    onUpdateLanguage: PropTypes.func.isRequired
 }
 
 export default class Popular extends React.Component {
