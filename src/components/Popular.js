@@ -1,5 +1,6 @@
 import * as React from 'react'
 import PropTypes from "prop-types";
+import { fetchPopularRepos } from "../utils/api";
 
 function LanguagesNav ({selected, onUpdateLanguage}) {
     /**
@@ -34,21 +35,48 @@ export default class Popular extends React.Component {
         // as usual, call the parent constructor of extended class first
         super(props);
         this.state = {
-            selectedLanguage: 'All'
+            selectedLanguage: 'All',
+            repos: null,
+            error: null
         }
         // now LanguagesNav is abstracted into a function we need this binding for state wiring
         this.updateLanguage = this.updateLanguage.bind(this)
+        this.isLoading = this.isLoading.bind(this)
+    }
+
+    componentDidMount() {
+        this.updateLanguage(this.state.selectedLanguage)
     }
 
     updateLanguage(selectedLanguage) {
         // using setState to update the value string of selectedLanguage
         this.setState({
-            selectedLanguage
+            selectedLanguage,
+            error: null,
+            repos: null
         })
+
+        fetchPopularRepos(selectedLanguage)
+            .then((repos) => this.setState({
+                repos,
+                error: null,
+            }))
+            .catch((error) => {
+                console.warn('Error fetching them repos: ', error)
+                this.setState({
+                    error: 'There was an error fetching the repositories from GitHub'
+                })
+            })
+
+
+    }
+
+    isLoading() {
+        return this.state.repos === null && this.state.error === null
     }
 
     render() {
-        const { selectedLanguage } = this.state
+        const { selectedLanguage, repos, error } = this.state
 
         return (
             /** remember React only like one top div wrapper - React.Fragment allows to stack many inside,
@@ -58,6 +86,9 @@ export default class Popular extends React.Component {
                 <LanguagesNav
                     selected={selectedLanguage}
                     onUpdateLanguage={this.updateLanguage}/>
+                {this.isLoading() && <p>LOADING</p>}
+                {error && <p>{ error }</p>}
+                {repos && <pre>{ JSON.stringify(repos, null, 2) }</pre>}
             </React.Fragment>
         )
     }
