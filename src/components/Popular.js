@@ -28,7 +28,7 @@ export default class Popular extends React.Component {
         this.state = {
             selectedLanguage: 'All'
         }
-        // doesn't really need this at the moment, but let's get into this habit!
+        // now LanguagesNav is not abstracted into a function we need this binding for state wiring
         this.updateLanguage = this.updateLanguage.bind(this)
     }
 
