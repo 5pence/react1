@@ -30,6 +30,19 @@ LanguagesNav.propType = {
     onUpdateLanguage: PropTypes.func.isRequired
 }
 
+function ReposGrid({ repos }) {
+    return (
+        <ul>
+                <li>{JSON.stringify(repos, null, 2)}</li>
+        </ul>
+    )
+}
+
+ReposGrid.proptype = {
+    repos: PropTypes.array.isRequired
+}
+
+
 export default class Popular extends React.Component {
     constructor(props) {
         // as usual, call the parent constructor of extended class first
@@ -92,7 +105,7 @@ export default class Popular extends React.Component {
                     onUpdateLanguage={this.updateLanguage}/>
                 {this.isLoading() && <p>LOADING</p>}
                 {error && <p>{ error }</p>}
-                {repos[selectedLanguage] && <pre>{ JSON.stringify(repos[selectedLanguage], null, 2) }</pre>}
+                {repos[selectedLanguage] && <ReposGrid repos={repos[selectedLanguage]} />}
             </React.Fragment>
         )
     }
